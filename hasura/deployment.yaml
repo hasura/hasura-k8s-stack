@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hasura
+spec:
+  selector:
+    matchLabels:
+      app: hasura
+  template:
+    metadata:
+      labels:
+        app: hasura
+    spec:
+      containers:
+      - name: hasura
+        image: hasura/graphql-engine:v1.0.0-alpha37
+        env:
+        - name: HASURA_GRAPHQL_DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              key: dburl
+              name: hasura
+        - name: HASURA_GRAPHQL_ACCESS_KEY
+          valueFrom:
+           secretKeyRef:
+             key: accessKey
+             name: hasura
+        - name: HASURA_GRAPHQL_ENABLE_CONSOLE
+          value: "true"
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+          requests:
+            memory: "128Mi"
+            cpu: "50m"
+        ports:
+        - containerPort: 8080

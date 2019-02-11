@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hasura
+  annotations:
+    kubernetes.io/ingress.class: "nginx"    
+    #certmanager.k8s.io/issuer: "letsencrypt-staging"
+    certmanager.k8s.io/issuer: "letsencrypt-prod"
+    certmanager.k8s.io/acme-challenge-type: http01
+
+spec:
+  tls:
+  - hosts:
+    - k8s-stack.hasura.app
+    secretName: k8s-stack-hasura-app-tls
+  rules:
+  - host: k8s-stack.hasura.app
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: hasura
+          servicePort: 8080
