@@ -1,0 +1,21 @@
+{
+  "name": "event-triggers",
+  "version": "0.0.1",
+  "description": "Event triggers to be used with Hasura",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon -r esm src/server.js",
+    "start-prod": "node -r esm src/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "esm": "^3.2.4",
+    "nodemon": "^1.18.10"
+  }
+}
