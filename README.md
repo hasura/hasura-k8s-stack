@@ -20,7 +20,7 @@ A feature-complete Hasura stack on Kubernetes.
 
 _This guide is written with the assumption that the user is well versed with
 Kubernetes and the user has a Kubernetes cluster with enough resources ready for
-consumption ._
+consumption._
 
 ### Postgres
 
@@ -58,8 +58,7 @@ kubectl apply -f deployment-service.yaml
 ```
 
 Once these components are successfully created, Postgres will be available at
-hostname:port `postgres://postgres:5432` on the Kubernetes cluster in the `default`
-namespace.
+`postgres://postgres:5432` on the Kubernetes cluster in the `default` namespace.
 
 ### Hasura GraphQL Engine
 
@@ -89,6 +88,20 @@ kubectl apply -f deployment-service.yaml
 Hasura should be available as `http://hasura:80` inside the cluster. This
 service can be publicly exposed with an ingress rule and we'll explore it in the
 ingress section.
+
+#### Scaling
+
+Hasura can be horizontally scaled without any side-effects. Just increase the
+number of replicas for the Kubernetes deployment. Make sure that there is enough
+CPU/RAM available for the new replicas.
+
+```bash
+kubectl scale deployment/hasura --replicas 3
+```
+
+Until [PR#1574](https://github.com/hasura/graphql-engine/pull/1574) is merged,
+it is recommended to scale the replicas back to one to apply migrations and then
+scale them back up again.
 
 ### Nginx Ingress
 
@@ -211,7 +224,6 @@ The domain should have a proper SSL certificate once the issuance is completed.
 ## TODO
 
 - Using tools like [Kustomize](https://kustomize.io/) to make deploying easier.
-- Setting up CI/CD scripts for migrations and enviroment promotion.
+- Setting up CI/CD scripts for migrations and environment promotion.
 - Docs for remote schemas and event triggers.
 - Docs for auth integration.
-
