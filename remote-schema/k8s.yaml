@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: remote-schema
-        image: hasura/k8s-stack-remote-schema:0.1
+        image: hasura/k8s-stack-remote-schema:6c3a63c
         resources:
           limits:
             memory: "128Mi"

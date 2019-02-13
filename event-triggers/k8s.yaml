@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: event-triggers
-        image: hasura/k8s-stack-event-triggers:0.1
+        image: hasura/k8s-stack-event-triggers:6c3a63c
         resources:
           limits:
             memory: "128Mi"

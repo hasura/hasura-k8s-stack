@@ -220,10 +220,54 @@ kubectl edit ingress hasura
 
 The domain should have a proper SSL certificate once the issuance is completed.
 
+### Event Triggers
+
+[Event
+triggers](https://github.com/hasura/graphql-engine/blob/master/event-triggers.md)
+can be used to trigger webhooks on database events like insert, update and
+delete. This is typically useful for executing asynchronous business logic, like
+sending emails, updating a search index etc. In this stack we are using a
+Node.js microservice written using Express.js which exposes our webhooks. Many
+community contributed
+[boilerplates](https://github.com/hasura/graphql-engine/tree/master/community/boilerplates/event-triggers)
+are available which includes serverless functions also.
+
+#### Installation
+
+```bash
+cd event-tiggers
+
+# create kubernetes deployment and service
+kubectl apply -f k8s.yaml
+```
+
+Once the container has started, the triggers will be available at
+`http://event-triggers` from within the cluster, there is an echo trigger that
+is already setup at `http://event-triggers/echo`.
+
+
+### Remote Schema
+
+To custom business logic that is synchronous in nature, you can write a
+dedicated GraphQL server in any preferred language and expose the queries and
+mutations from that server through Hasura's GraphQL API using [Remote
+schema](https://github.com/hasura/graphql-engine/blob/master/remote-schemas.md)
+feature. The stack here includes a GraphQL server written in Node.js using
+Express.js and GraphQL.js with a sample Hello World schema.
+
+#### Installation
+
+```bash
+cd remote-schema
+
+# create kubernetes deployment and service
+kubectl apply -f k8s.yaml
+```
+
+The GraphQL server should be available at `http://remote-schema/graphql` from within the cluster.
 
 ## TODO
 
 - Using tools like [Kustomize](https://kustomize.io/) to make deploying easier.
 - Setting up CI/CD scripts for migrations and environment promotion.
-- Docs for remote schemas and event triggers.
 - Docs for auth integration.
