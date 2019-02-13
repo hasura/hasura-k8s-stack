@@ -99,9 +99,44 @@ CPU/RAM available for the new replicas.
 kubectl scale deployment/hasura --replicas 3
 ```
 
+#### Migrations
+
+Hasura can keep track of the database and metadata changes and store them as
+declarative files so that it can be version controlled. It is a flexible system
+that let's you write migrations by hand or it can auto-generate migrations when
+you use the console.
+
+To use migrations, install the Hasura CLI - instructions are in the
+[docs](https://docs.hasura.io/1.0/graphql/manual/hasura-cli/install-hasura-cli.html).
+
+Once CLI is installed, open the console using CLI.
+
+```bash
+cd hasura
+
+# open console
+hasura console --endpoint <hasura-endpoint> --access-key <hasura-access-key>
+```
+
+As and when you use the console to make changes, CLI will write migration files
+(yaml) to the `migrations` directory.
+
+[Read more](https://docs.hasura.io/1.0/graphql/manual/migrations/index.html)
+about migrations.
+
+The same migrations can then be applied on another Hasura instance:
+
+```bash
+cd hasura
+
+# apply migrations on another instance
+hasura migrate apply --endpoint <another-hasura-endpoint> --access-key <access-key>
+```
+
 Until [PR#1574](https://github.com/hasura/graphql-engine/pull/1574) is merged,
 it is recommended to scale the replicas back to one to apply migrations and then
 scale them back up again.
+
 
 ### Nginx Ingress
 
