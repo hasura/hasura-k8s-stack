@@ -181,28 +181,6 @@ domain from the DNS dashboard.
 
 We'll use the same domain in our ingress configuration.
 
-```bash
-cd hasura
-
-# edit ingress.yaml and replace k8s-stack.hasura.app with your domain
-vim ingress.yaml
-
-# create the ingress resource
-kubectl apply -f ingress.yaml
-```
-
-Depending on the load balancer and the networking plugin, it will take couple of
-minutes for the configuration to be active.
-
-```bash
-# check the status of ingress
-kubectl get ingress
-
-NAME     HOSTS                  ADDRESS        PORTS     AGE
-hasura   k8s-stack.hasura.app   52.172.9.111   80, 443   30h
-
-```
-
 You can check the status by checking if the address is assigned. Once it is
 available you can go to the domain and it should load the Hasura console.
 
@@ -235,9 +213,40 @@ kubectl apply -f le-staging-issuer.yaml
 kubectl apply -f le-prod-issuer.yaml
 ```
 
-As soon as the manager starts running, it will contact the Let's Encrypt staging
+Once the manager starts running, it will contact the Let's Encrypt staging
 server and issues a fake certificate. This is to make sure that
 misconfigurations will not lead to hitting rate limits on the prod server.
+
+For this to happen, let's create the Ingress resource.
+
+```bash
+cd hasura
+
+# edit ingress.yaml and replace k8s-stack.hasura.app with your domain
+vim ingress.yaml
+
+# create the ingress resource
+kubectl apply -f ingress.yaml
+```
+
+Depending on the load balancer and the networking plugin, it will take couple of
+minutes for the configuration to be active.
+
+```bash
+# check the status of ingress
+kubectl get ingress
+
+NAME     HOSTS                  ADDRESS        PORTS     AGE
+hasura   k8s-stack.hasura.app   52.172.9.111   80, 443   30h
+
+```
+Once the Ingress resource is created, cert-manager should be triggered and it
+will start the certificate issuance process. You can check the status using
+the following command:
+
+```bash
+kubectl get certificate
+```
 
 Checkout of you're getting a SSL certificate for the domain (it will be invalid
 as it is a fake CA). If everything is alright, edit the ingress resource to use
@@ -251,6 +260,10 @@ kubectl edit ingress hasura
 #    certmanager.k8s.io/issuer: letsencrypt-prod
 
 # save and exit
+
+# delete the certificate that is already issue to trigger a cert issuance 
+# from prod server
+kubectl delete certificate <cert-name-from-get-command-above>
 ```
 
 The domain should have a proper SSL certificate once the issuance is completed.
