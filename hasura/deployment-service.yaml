@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: hasura
-        image: hasura/graphql-engine:v1.0.0-alpha37
+        image: hasura/graphql-engine:v1.0.0-alpha39
         env:
         - name: HASURA_GRAPHQL_DATABASE_URL
           valueFrom:
