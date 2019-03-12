@@ -319,3 +319,7 @@ The GraphQL server should be available at `http://remote-schema/graphql` from wi
 - Using tools like [Kustomize](https://kustomize.io/) to make deploying easier.
 - Setting up CI/CD scripts for migrations and environment promotion.
 - Docs for auth integration.
+
+___
+
+A big shoutout to the folks at [Apps Integra](https://www.appsintegra.com/) for collaborating with Hasura on this repo.
