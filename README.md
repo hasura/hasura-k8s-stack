@@ -200,13 +200,13 @@ vendor as it can be configured directly with the Ingress controller.
 cd cert-manager
 
 # create the namespace
-kubectl apply -f namesapce.yaml
+kubectl apply -f namespace.yaml
 
 # create crds
 kubectl apply -f 00-crds.yaml
 
 # create the cert manager resources
-kubectl apply -f cert-manager-yaml
+kubectl apply -f cert-manager.yaml
 
 # create letsencrypt staging and prod issuers
 kubectl apply -f le-staging-issuer.yaml
