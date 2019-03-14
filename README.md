@@ -322,4 +322,4 @@ The GraphQL server should be available at `http://remote-schema/graphql` from wi
 
 ___
 
-A big shoutout to the folks at [Apps Integra](https://www.appsintegra.com/) for collaborating with Hasura on this repo.
+A big shoutout to the folks at [appsintegra](https://www.appsintegra.com/) for collaborating with Hasura on this repo.
